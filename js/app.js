@@ -1,6 +1,6 @@
 // this function takes the question object returned by the StackOverflow request
 // and returns new result to be appended to DOM
-var showQuestion = function(question) {
+/* var showQuestion = function(question) {
 
 	// clone our result template code
 	var result = $('.templates .question').clone();
@@ -29,7 +29,7 @@ var showQuestion = function(question) {
 	);
 
 	return result;
-};
+}; */
 
 
 // this function takes the tag score object returned by the StackOverflow request
@@ -81,7 +81,7 @@ var showError = function(error){
 
 // takes a string of semi-colon separated tags to be searched
 // for on StackOverflow
-var getUnanswered = function(tags) {
+/* var getUnanswered = function(tags) {
 
 	// the parameters we need to pass in our request to StackOverflow's API
 	var request = {
@@ -112,7 +112,7 @@ var getUnanswered = function(tags) {
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
-};
+}; */
 
 // passes a tag string to search for top answerers
 // on this topic on StackOverflow
@@ -146,8 +146,8 @@ var getAnswerer = function(tag) {
 		//$.each is a higher order function. It takes an array and a function as an argument.
 		//The function is executed once for each item in the array.
 		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
-			$('.results').append(question);
+			var answerer = showAnswerer(item);
+			$('.results').append(answerer);
 		});
 	})
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
@@ -170,7 +170,7 @@ $(document).ready( function() {
 		// zero out results if previous search has run
 		$('.results').html('');
 		// get the top 30 answerers of questions with the tags the user submitted
-		var tags = $(this).find("input[name='tags']").val();
-		getAnswerer(tags);
+		var tag = $(this).find("input[name='tag']").val();
+		getAnswerer(tag);
 	});
 });
