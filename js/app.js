@@ -107,7 +107,7 @@ var getAnswerer = function(tag) {
 	var request = {
 		tag: tag,   // value input by user
 		site: 'stackoverflow',   // value included in query string, specifies the site at the domain in url below
-		period: 'month'   // could be "all_time" or "month"
+		period: 'all_time'   // could be "all_time" or "month"
 	};
 
   // consult method documentation to know what parameters/data the API is expecting
