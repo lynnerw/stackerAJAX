@@ -21,7 +21,7 @@ var showQuestion = function(question) {
 
 	// set some properties related to the user who asked the question
 	var asker = result.find('.asker');
-	asker.html('<p>Name: <a target="_blank" '+ 'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
+	asker.html('<p>Name: <a target="_blank" '+ 'href=https://stackoverflow.com/users/' + question.owner.user_id + ' >' +
 		question.owner.display_name +	'</a></p>' + '<p>Reputation: ' + question.owner.reputation + '</p>');
 
 	return result;
@@ -55,7 +55,7 @@ var getUnanswered = function(tags) {  // tags is a string containing one or more
 
   // deferred object var created
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/questions/unanswered", //specifies the domain and end point method
+		url: "https://api.stackexchange.com/2.2/questions/unanswered", //specifies the domain and end point method
 		data: request,    // data key defined above includes user input tags, subsite to search, order and sort
 		type: "GET",     // type of call request
 	})
@@ -86,7 +86,7 @@ var showAnswerer = function(item) {
 
 	// display user's display name with link
 	var answererElem = result.find('.display-name');
-  answererElem.html('<a target="_blank" href="http://stackoverflow.com/users/' + item.user.user_id + '/' +
+  answererElem.html('<a target="_blank" href="https://stackoverflow.com/users/' + item.user.user_id + '/' +
     item.user.display_name + '">' + item.user.display_name + '</a>');
 
 	// display the # of answers this user posted and answer score for this tag in result
@@ -112,7 +112,7 @@ var getAnswerer = function(tag) {
 
   // consult method documentation to know what parameters/data the API is expecting
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/tags/" + request.tag + "/top-answerers/" + request.period,
+		url: "https://api.stackexchange.com/2.2/tags/" + request.tag + "/top-answerers/" + request.period,
 		data: request,
 		type: "GET",
 	})
