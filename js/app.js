@@ -90,7 +90,7 @@ var showAnswerer = function(item) {
     item.user.display_name + '">' + item.user.display_name + '</a>');
 
 	// display the # of answers this user posted and answer score for this tag in result
-	var ansScore = result.find('.answers-posted');
+  var ansScore = result.find('.answers-posted');
 	ansScore.html(item.post_count + ', with a score of ' + item.score);
 
   // display the user's reputation
