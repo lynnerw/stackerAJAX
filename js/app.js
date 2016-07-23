@@ -63,7 +63,6 @@ var getUnanswered = function(tags) {  // tags is a string containing one or more
 	$.ajax({
 		url: "http://api.stackexchange.com/2.2/questions/unanswered", //specifies the domain and end point method
 		data: request,    // data key defined above includes user input tags, subsite to search, order and sort
-		dataType: "jsonp",  //use jsonp to avoid cross origin issues
 		type: "GET",     // type of call request
 	})
 
@@ -87,19 +86,17 @@ var getUnanswered = function(tags) {  // tags is a string containing one or more
 
 
 // this function sets values for tag score object properties returned by the StackOverflow request
-var showAnswerer = function(answerer) {
+var showAnswerer = function(item) {
 
 	// clone our result template code
 	var result = $('.templates .answerer').clone();
 
 	// set the user's display name and link in result
-  // QUESTION: how can I see what is "stored" in .display-name or answerer?
-	var answerer = result.find('.display-name');
-  answerer.html('<p>Name: ' + answerer.user.display_name + '</p>');
-  /* <a target="_blank" href="http://stackoverflow.com/users/' + answerer.user.user_id + '/' +
-    answerer.user.display_name + '">' + answerer.user.display_name + '</a></p>' */
-
-console.log(answerer.user.display_name);
+	var answererElem = result.find('.display-name');
+  answererElem.html(': <a target="_blank" href="http://stackoverflow.com/users/' + item.user.user_id + '/' +
+    item.user.display_name + '">' + item.user.display_name + '</a>'
+);
+// console.log(item.user.display_name);
 
 	// set the user's answer acceptance rate for this tag in result
 	var acceptRate = result.find('.accept-rate');
@@ -107,8 +104,8 @@ console.log(answerer.user.display_name);
 
 	// set the user's score
 	var score = result.find('.score');
-	score.html('<p>Answerer\'s score:' + answerer.user.score +
-		'<p>Score: ' + question.owner.reputation + '</p>'
+	score.html('<p>Answerer\'s score:' + item.user.score +
+		'<p>Reputation: ' + item.user.reputation + '</p>'
 	);
 
 	return result;
@@ -131,7 +128,6 @@ console.log('tag is ' + request.tag);
 	$.ajax({
 		url: "http://api.stackexchange.com/2.2/tags/" + request.tag + "/top-answerers/" + request.period,
 		data: request,
-		dataType: "jsonp",
 		type: "GET",
 	})
 
