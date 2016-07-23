@@ -1,6 +1,6 @@
 
-// show unanswered questions returned from stackoverflow
- var showQuestion = function(question) {
+// put unanswered questions (returned in response to API call) into DOM
+var showQuestion = function(question) {
 
 	// clone the results content temporarily stored in hidden DOM template element divs in HTML
 	var result = $('.templates .question').clone();
@@ -19,32 +19,26 @@
 	var viewed = result.find('.viewed');
 	viewed.text(question.view_count);
 
-	// set some properties related to the question-asker
+	// set some properties related to the user who asked the question
 	var asker = result.find('.asker');
-	asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
-		question.owner.display_name +
-		'</a></p>' +
-		'<p>Reputation: ' + question.owner.reputation + '</p>'
-	);
+	asker.html('<p>Name: <a target="_blank" '+ 'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
+		question.owner.display_name +	'</a></p>' + '<p>Reputation: ' + question.owner.reputation + '</p>');
 
 	return result;
-};
+  };
 
-
-// this function takes the results object from StackOverflow
-// and returns the number of results and tags to be appended to DOM
-var showSearchResults = function(query, resultNum) {
+  // parse the results object returned and determine number of results to be appended to DOM
+  var showSearchResults = function(query, resultNum) {
 	var results = resultNum + ' results for <strong>' + query + '</strong>';
 	return results;
-};
+  };
 
-// takes error string and turns it into displayable DOM element
-var showError = function(error){
+  // captures error string and turns it into displayable DOM element
+  var showError = function(error){
 	var errorElem = $('.templates .error').clone();
 	var errorText = '<p>' + error + '</p>';
 	errorElem.append(errorText);
-};
+  };
 
 
 // sends a string of tag(s) (semi-colon separated) in "get unanswered questions" call to stackexchange
@@ -70,8 +64,7 @@ var getUnanswered = function(tags) {  // tags is a string containing one or more
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
-		//$.each is a higher order function. It takes an array and a function as an argument.
-		//The function is executed once for each item in the array.
+		//$.each executes the function passed in once for each item in array passed in
 		$.each(result.items, function(i, item) {
 			var question = showQuestion(item);
 			$('.results').append(question);
@@ -91,22 +84,18 @@ var showAnswerer = function(item) {
 	// clone our result template code
 	var result = $('.templates .answerer').clone();
 
-	// set the user's display name and link in result
+	// display user's display name with link
 	var answererElem = result.find('.display-name');
-  answererElem.html(': <a target="_blank" href="http://stackoverflow.com/users/' + item.user.user_id + '/' +
-    item.user.display_name + '">' + item.user.display_name + '</a>'
-);
-// console.log(item.user.display_name);
+  answererElem.html('<a target="_blank" href="http://stackoverflow.com/users/' + item.user.user_id + '/' +
+    item.user.display_name + '">' + item.user.display_name + '</a>');
 
-	// set the user's answer acceptance rate for this tag in result
-	var acceptRate = result.find('.accept-rate');
-	// .text();
+	// display the # of answers this user posted and answer score for this tag in result
+	var ansScore = result.find('.answers-posted');
+	ansScore.html(item.post_count + ', with a score of ' + item.score);
 
-	// set the user's score
-	var score = result.find('.score');
-	score.html('<p>Answerer\'s score:' + item.user.score +
-		'<p>Reputation: ' + item.user.reputation + '</p>'
-	);
+  // display the user's reputation
+	var reputationElem = result.find('.reputation');
+	reputationElem.html(item.user.reputation);
 
 	return result;
 };
@@ -115,14 +104,11 @@ var showAnswerer = function(item) {
 var getAnswerer = function(tag) {
 
 	// create an object containing the data: parameters to be passed in ajax request to stackexchange's API
-	// method = "/2.2/tags/{tag}/top-answerers/{period}”
 	var request = {
-		tag: tag,
+		tag: tag,   // value input by user
 		site: 'stackoverflow',   // value included in query string, specifies the site at the domain in url below
 		period: 'month'   // could be "all_time" or "month"
 	};
-
-console.log('tag is ' + request.tag);
 
   // consult method documentation to know what parameters/data the API is expecting
 	$.ajax({
@@ -131,7 +117,7 @@ console.log('tag is ' + request.tag);
 		type: "GET",
 	})
 
-  //wait for the ajax to successfully return object
+  //wait for the ajax to successfully return object, then parse and append to DOM
   .done(function(result){
 		var searchResults = showSearchResults(request.tag, result.items.length);
 

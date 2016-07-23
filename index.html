@@ -11,8 +11,8 @@
 			<div class="left stack-image"></div>
 			<div class="explanation">
 				<h1>StackOverflow Reputation Builder</h1>
-				<p>This app lets you search by topic for unanswered questions on Stack Overflow to help you build your reputation.  Find unanswered questions for a topic you know about, write quality answers, and watch your reputation go up.</p>
-				<p>Sometimes, you also need some inspiration. This page also lets you search for the top answerers for a tag. If you want to rise to the top ranks for a topic, see how many reputation points you'll need to aim for!</p>
+				<p>This app lets you search Stack Overflow for unanswered questions, by topic (tag). Find unanswered questions for a topic you know pretty well, write quality answers, and watch your reputation score soar.</p>
+				<p>When you need some inspiration, you can also search for the top answerers for a tag. If you want to rise to the top ranks for a topic, see how many reputation points you'll need to aim for!</p>
 			</div>
 		</div>
 		<hr>
@@ -35,7 +35,7 @@
 			<div class="results"></div>  <!-- displays the actual results, each one with a black border -->
 		</div>
 	</div>
-	<!-- QUESTION: why are these classes set up this way here vs how they are used in app.js -->
+
 	<div class="templates hidden">  <!-- 'templates' class referenced in app.js, 'hidden' class declared in css -->
 		<dl class="result question">  <!-- 'result' class declared in css, 'question' class referenced in app.js -->
 			<dt>Question</dt>  <!-- displays "Question label", and question text linked -->
@@ -48,14 +48,12 @@
 				<dd class="asker"></dd>
 		</dl>
 		<dl class="result answerer">
-			<dt>Name</dt>
+			<dt>Top Answerer:</dt>
 				<dd class="display-name"></dd>
-			<dt>Percent of Answers Accepted:</dt>
-				<dd class="accept-rate"></dd>
-			<dt>Score</dt>
-				<dd class="score"></dd>
-			<dt>Link</dt>
-				<dd class="link"><a href="" target="_blank"></a></dd>
+			<dt>Answers Posted:</dt>
+				<dd class="answers-posted"></dd>
+			<dt>Answerer's Reputation:</dt>
+				<dd class="reputation"></dd>
 		</dl>
 		<div class="error">
 			<p>Uh-oh! Something went wrong with your request. Here's what we know:</p>
