@@ -24,7 +24,7 @@
 				<input type="submit" value="Submit">
 			</form>
 			<h3>View the Top Answerers for a Tag</h3>
-			<p>See up to 20 users with the most accepted answers for a particular tag (topic). Then click on their user name to learn more about them.</p>
+			<p>See up to 20 users with the most answers for a particular tag (topic). Then click on their user name to learn more about them.</p>
 			<form class="inspiration-getter">  <!-- for user input -->
 				<input type="text" placeholder="e.g., jQuery" name="tag" size="30" autofocus required>
 				<input type="submit" value="Submit">
@@ -38,21 +38,21 @@
 
 	<div class="templates hidden">  <!-- 'templates' class referenced in app.js, 'hidden' class declared in css -->
 		<dl class="result question">  <!-- 'result' class declared in css, 'question' class referenced in app.js -->
-			<dt>Question</dt>  <!-- displays "Question label", and question text linked -->
+			<dt>Unanswered question:</dt>  <!-- displays "Question label", and question text linked -->
 				<dd class="question-text"><a href="" target="_blank"></a></dd>
-			<dt>Asked</dt> <!-- displays "Asked" label, date, time, time zone -->
+			<dt>When it was asked:</dt> <!-- displays "Asked" label, date, time, time zone -->
 				<dd class="asked-date"></dd>
-			<dt>Viewed</dt> <!-- displays "Viewed" label and integer -->
+			<dt>Viewed this many times:</dt> <!-- displays "Viewed" label and integer -->
 				<dd class="viewed"></dd>
-			<dt>Asker</dt> <!-- displays "Asker" label, "Name:" label, user name (linked), and Reputation label and integer -->
+			<dt>Who asked the question:</dt> <!-- displays "Asker" label, "Name:" label, user name (linked), and Reputation label and integer -->
 				<dd class="asker"></dd>
 		</dl>
 		<dl class="result answerer">
-			<dt>Top Answerer:</dt>
+			<dt>Top answerer:</dt>
 				<dd class="display-name"></dd>
-			<dt>Answers Posted:</dt>
+			<dt>Answers posted for this tag:</dt>
 				<dd class="answers-posted"></dd>
-			<dt>Answerer's Reputation:</dt>
+			<dt>Answerer's reputation:</dt>
 				<dd class="reputation"></dd>
 		</dl>
 		<div class="error">
