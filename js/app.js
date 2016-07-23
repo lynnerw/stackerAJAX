@@ -1,25 +1,25 @@
-// this function takes the question object returned by the StackOverflow request
-// and returns new result to be appended to DOM
-/* var showQuestion = function(question) {
 
-	// clone our result template code
+// show unanswered questions returned from stackoverflow
+ var showQuestion = function(question) {
+
+	// clone the results content temporarily stored in hidden DOM template element divs in HTML
 	var result = $('.templates .question').clone();
 
-	// Set the question properties in result
+	// set the actual question content properties in result
 	var questionElem = result.find('.question-text a');
 	questionElem.attr('href', question.link);
 	questionElem.text(question.title);
 
-	// set the date asked property in result
+	// set the 'date/time question was asked' property in result
 	var asked = result.find('.asked-date');
 	var date = new Date(1000*question.creation_date);
 	asked.text(date.toString());
 
-	// set the .viewed for question property in result
+	// set the ''# of times viewed' property in result
 	var viewed = result.find('.viewed');
 	viewed.text(question.view_count);
 
-	// set some properties related to asker
+	// set some properties related to the question-asker
 	var asker = result.find('.asker');
 	asker.html('<p>Name: <a target="_blank" '+
 		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
@@ -29,41 +29,8 @@
 	);
 
 	return result;
-}; */
-
-
-// this function takes the tag score object returned by the StackOverflow request
-// and returns new result to be appended to DOM
-var showAnswerer = function(answerer) {
-
-	// clone our result template code
-	var result = $('.templates .answerer').clone();
-
-	// set the user's display name in result
-	var asked = result.find('.display-name');
-	var date = new Date(1000*question.creation_date);
-	asked.text(date.toString());
-
-	// set the accept rate for the user for this tag in result
-	var accepted = result.find('.accept-rate');
-	viewed.text(question.view_count);
-
-	// set the user's score
-	var asker = result.find('.score');
-	asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
-		question.owner.display_name +
-		'</a></p>' +
-		'<p>Reputation: ' + question.owner.reputation + '</p>'
-	);
-
-	// set the answerer's user link in result
-	var answererLink = result.find('.link a');
-	answererLink.attr???('href', answerer.link);
-	answererLink.text???(answerer.title???);
-
-	return result;
 };
+
 
 // this function takes the results object from StackOverflow
 // and returns the number of results and tags to be appended to DOM
@@ -79,25 +46,28 @@ var showError = function(error){
 	errorElem.append(errorText);
 };
 
-// takes a string of semi-colon separated tags to be searched
-// for on StackOverflow
-/* var getUnanswered = function(tags) {
 
-	// the parameters we need to pass in our request to StackOverflow's API
+// sends a string of tag(s) (semi-colon separated) in "get unanswered questions" call to stackexchange
+var getUnanswered = function(tags) {  // tags is a string containing one or more user submitted tags
+
+	// the data: parameters passed in ajax request to stackexchange's API
+  // create an object containing parameters to be passed
 	var request = {
-		tagged: tags,
-		site: 'stackoverflow',
+		tagged: tags,   // find questions tagged with a string array of tag(s) submitted by user and passed into this function
+		site: 'stackoverflow',   // value included in query string, specifies the site at the domain in url below
 		order: 'desc',
 		sort: 'creation'
 	};
 
+  // deferred object var created
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/questions/unanswered",
-		data: request,
-		dataType: "jsonp",//use jsonp to avoid cross origin issues
-		type: "GET",
+		url: "http://api.stackexchange.com/2.2/questions/unanswered", //specifies the domain and end point method
+		data: request,    // data key defined above includes user input tags, subsite to search, order and sort
+		dataType: "jsonp",  //use jsonp to avoid cross origin issues
+		type: "GET",     // type of call request
 	})
-	.done(function(result){ //this waits for the ajax to return with a succesful promise object
+
+	.done(function(result){ //this waits for the ajax to successfully return object
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
@@ -108,60 +78,88 @@ var showError = function(error){
 			$('.results').append(question);
 		});
 	})
+
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
-}; */
+}; // end getUnanswered
 
-// passes a tag string to search for top answerers
-// on this topic on StackOverflow
+
+// this function sets values for tag score object properties returned by the StackOverflow request
+var showAnswerer = function(answerer) {
+
+	// clone our result template code
+	var result = $('.templates .answerer').clone();
+
+	// set the user's display name and link in result
+  // QUESTION: how can I see what is "stored" in .display-name or answerer?
+	var answerer = result.find('.display-name');
+  answerer.html('<p>Name: ' + answerer.user.display_name + '</p>');
+  /* <a target="_blank" href="http://stackoverflow.com/users/' + answerer.user.user_id + '/' +
+    answerer.user.display_name + '">' + answerer.user.display_name + '</a></p>' */
+
+console.log(answerer.user.display_name);
+
+	// set the user's answer acceptance rate for this tag in result
+	var acceptRate = result.find('.accept-rate');
+	// .text();
+
+	// set the user's score
+	var score = result.find('.score');
+	score.html('<p>Answerer\'s score:' + answerer.user.score +
+		'<p>Score: ' + question.owner.reputation + '</p>'
+	);
+
+	return result;
+};
+
+// sends a tag string in /tags/{tag}/top-answerers/{period} call to stackexchange
 var getAnswerer = function(tag) {
 
-	// the parameters we need to pass in our request to StackOverflow's API
+	// create an object containing the data: parameters to be passed in ajax request to stackexchange's API
+	// method = "/2.2/tags/{tag}/top-answerers/{period}”
 	var request = {
-		"page":"number",
-		"pagesize":"number",
-		"tag":"string",
-		"period":["all_time","month"]};
-
-	var method = "/2.2/tags/{tag}/top-answerers/{period}";
-
-		tagged: tag,
-		site: 'stackoverflow',
-		order: 'desc',
-		sort: 'creation'
+		tag: tag,
+		site: 'stackoverflow',   // value included in query string, specifies the site at the domain in url below
+		period: 'month'   // could be "all_time" or "month"
 	};
 
+console.log('tag is ' + request.tag);
+
+  // consult method documentation to know what parameters/data the API is expecting
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/tags/" ,
+		url: "http://api.stackexchange.com/2.2/tags/" + request.tag + "/top-answerers/" + request.period,
 		data: request,
-		dataType: "jsonp",//use jsonp to avoid cross origin issues
+		dataType: "jsonp",
 		type: "GET",
 	})
-	.done(function(result){ //this waits for the ajax to return with a succesful promise object
+
+  //wait for the ajax to successfully return object
+  .done(function(result){
 		var searchResults = showSearchResults(request.tag, result.items.length);
 
 		$('.search-results').html(searchResults);
-		//$.each is a higher order function. It takes an array and a function as an argument.
-		//The function is executed once for each item in the array.
+		//$.each takes an array and a function as an argument and executes the function once for each item in the array
 		$.each(result.items, function(i, item) {
 			var answerer = showAnswerer(item);
 			$('.results').append(answerer);
 		});
 	})
+
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
-};
+}; // end getAnswerer
 
 $(document).ready( function() {
 	$('.unanswered-getter').submit( function(e){
 		e.preventDefault();
-		// zero out results if previous search has run
-		$('.results').html('');
-		// get the value of the tags the user submitted
+		// zero out results container, including # of results, if previous search has run
+		// why doesn't this work: $('.search-results').html('');
+    $('.results').html('');
+		// get the value of the tags the user submitted and pass as parameter in ajax call
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 	});

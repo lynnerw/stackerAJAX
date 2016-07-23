@@ -17,32 +17,34 @@
 		</div>
 		<hr>
 		<div class="stack">
-			<h3>Get Unanswered Questions</h3>
-			<p>Find unanswered questions by tag. For multiple tags, use a semi-colon to separate.</p>
-			<form class="unanswered-getter">
+			<h3>Unanswered Questions</h3>
+			<p>See up to 30 unanswered questions for one or more tags (topics). To see questions with multiple tags, separate the tags with a semi-colon.</p>
+			<form class="unanswered-getter">  <!-- for user input -->
 				<input type="text" placeholder='e.g., "HTML" or "HTML;CSS"' name="tags" size="30" autofocus required>
 				<input type="submit" value="Submit">
 			</form>
 			<h3>View the Top Answerers for a Tag</h3>
-			<form class="inspiration-getter">
+			<p>See up to 20 users with the most accepted answers for a particular tag (topic). Then click on their user name to learn more about them.</p>
+			<form class="inspiration-getter">  <!-- for user input -->
 				<input type="text" placeholder="e.g., jQuery" name="tag" size="30" autofocus required>
 				<input type="submit" value="Submit">
 			</form>
 		</div>
-		<div class="results-container">
-			<div class="search-results"></div>
-			<div class="results"></div>
+		<div class="results-container"> <!-- for displaying the content returned from the api call -->
+			<div class="search-results"></div>  <!-- displays number of results for the search -->
+			<div class="results"></div>  <!-- displays the actual results, each one with a black border -->
 		</div>
 	</div>
-	<div class="templates hidden">
-		<dl class="result question">
-			<dt>Question</dt>
+	<!-- QUESTION: why are these classes set up this way here vs how they are used in app.js -->
+	<div class="templates hidden">  <!-- 'templates' class referenced in app.js, 'hidden' class declared in css -->
+		<dl class="result question">  <!-- 'result' class declared in css, 'question' class referenced in app.js -->
+			<dt>Question</dt>  <!-- displays "Question label", and question text linked -->
 				<dd class="question-text"><a href="" target="_blank"></a></dd>
-			<dt>Asked</dt>
+			<dt>Asked</dt> <!-- displays "Asked" label, date, time, time zone -->
 				<dd class="asked-date"></dd>
-			<dt>Viewed</dt>
+			<dt>Viewed</dt> <!-- displays "Viewed" label and integer -->
 				<dd class="viewed"></dd>
-			<dt>Asker</dt>
+			<dt>Asker</dt> <!-- displays "Asker" label, "Name:" label, user name (linked), and Reputation label and integer -->
 				<dd class="asker"></dd>
 		</dl>
 		<dl class="result answerer">
